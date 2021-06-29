@@ -4,11 +4,13 @@ import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+
 
 @Service
 public class Listener implements IMqttMessageListener {
 
-
+    @PostConstruct
     public void init() {
 
         var topic = "latlong";
