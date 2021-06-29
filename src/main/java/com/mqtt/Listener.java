@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class Ouvinte implements IMqttMessageListener {
+public class Listener implements IMqttMessageListener {
 
 
     public void init() {

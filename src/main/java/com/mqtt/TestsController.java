@@ -7,17 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/run")
-public class TetsContronller {
-//    @Autowired
-//    private TestMqttService service;
-//
-//    @GetMapping()
-//    public void init() {
-//        service.init();
-//    }
+public class TestsController {
 
     @Autowired
-    private Ouvinte service;
+    private Listener service;
 
     @GetMapping()
     public void init() {
