@@ -1,34 +1,32 @@
 package com.mqtt;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-
-
+@Slf4j
 @Service
 public class Listener implements IMqttMessageListener {
+
+    @Autowired
+    private MqttProperties mqttProperties;
 
     @PostConstruct
     public void init() {
 
-        var topic = "latlong";
-        var qos = 2;
-        var broker = "tcp://172.100.10.101:1883";
-        var clientId = "charles";
-        var persistence = new MemoryPersistence();
-
         try {
-            var sampleClient = new MqttClient(broker, clientId, persistence);
+            var sampleClient = new MqttClient(mqttProperties.getBroker(), mqttProperties.getClientId(),new MemoryPersistence());
             var connOpts = new MqttConnectOptions();
             connOpts.setCleanSession(true);
-            connOpts.setUserName("charles");
-            connOpts.setPassword("123".toCharArray());
-            System.out.println("Connecting to broker: " + broker);
+            connOpts.setUserName(mqttProperties.getUserName());
+            connOpts.setPassword(mqttProperties.getPassword().toCharArray());
+            System.out.println("Connecting to broker: " + mqttProperties.getBroker());
             sampleClient.connect(connOpts);
             System.out.println("Connected");
-            sampleClient.subscribe(topic, qos, this);
+            sampleClient.subscribe(mqttProperties.getTopic(), mqttProperties.getQos(), this);
         } catch (MqttException me) {
             System.out.println("reason " + me.getReasonCode());
             System.out.println("msg " + me.getMessage());
@@ -47,3 +45,4 @@ public class Listener implements IMqttMessageListener {
         System.out.println("");
     }
 }
+                                                                                                                                                
